@@ -62,7 +62,14 @@ def qr(mat):
 class Design:
     def __init__(self, L):
         """
-        L is a CSC lower triangular matrix
+        Lower Cholesky factor of the pedigree genetic relatedness matrix.
+        Supports forward and backward substitution of the Cholesky factor.
+
+        Parameters
+        ------
+        L : scipy.sparse.csc_matrix
+            a compressed sparse column (CSC) format lower triangular matrix
+        
         """
         self.Lp = L.indptr
         self.Li = L.indices
@@ -71,6 +78,10 @@ class Design:
         self.num_inds = L.shape[0]
     
     def dot_left(self, left):
+        """
+        Solve `L x = y`
+        """
+    
         if left.flags['C_CONTIGUOUS']:
             back_2dsolve_c(self.Lp, self.Li, self.Lx, left)
         elif left.flags['F_CONTIGUOUS']:
@@ -80,6 +91,9 @@ class Design:
         return left.copy()
 
     def dot_right(self, right):
+        """
+        Solve `L' x = y`
+        """
         out = right.copy()
         if out.flags['C_CONTIGUOUS']:
             forward_2dsolve_c(self.Lp, self.Li, self.Lx, out)
@@ -91,7 +105,31 @@ class Design:
 
 def randomized_svd(design, n_components=2, n_iter=5, n_oversamples=5, random_matrix=None, seed=None):
     """
-    design is the RowEdgeDesign class object
+    Randomized singular value decomposition (SVD) of the pedigree genetic relatedness matrix
+
+    Parameters
+    ------
+    design : Design 
+        The lower Cholesky factor
+    n_components : int
+        The number of principal components
+    n_iter : int
+        The number of power iterations
+    n_oversample : int
+        The oversample parameter for better range coverage
+    random_matrix: np.ndarray
+        Random matrix for projection
+    seed: int
+        Random seed
+
+    Returns
+    ------
+    U : np.ndarray
+        Loading matrix
+    S : np.ndarray
+        Eigenvalues in descending order
+    V : np.ndarray
+        Factor matrix
     """
     
     if random_matrix is None:
