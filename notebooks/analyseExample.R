@@ -1,5 +1,20 @@
-
 # TODO: This script should be polished
+# ---- INSTALLATION ------------------------------------------------------
+
+pkgs <- c("rsvd")
+install.packages(pkg = pkgs)
+
+# if (!require("BiocManager", quietly = TRUE)) {
+#   install.packages("BiocManager")
+# }
+# BiocManager::install("BiocSingular")
+
+# ---- SETUP -------------------------------------------------------------
+
+library(package = "rsvd")
+# library(package = "BiocSingular")
+
+# TODO: Load the matrices
 
 # ---- eIBD TRENDS -------------------------------------------------------
 

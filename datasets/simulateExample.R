@@ -18,22 +18,14 @@
 
 # ---- INSTALLATION ------------------------------------------------------
 
-pkgs <- c("AlphaSimR", "dplyr", "pedigreeTools", "SIMplyBee", "rsvd")
+pkgs <- c("AlphaSimR", "dplyr", "pedigreeTools", "SIMplyBee")
 install.packages(pkg = pkgs)
-
-if (!require("BiocManager", quietly = TRUE)) {
-  install.packages("BiocManager")
-}
-BiocManager::install("BiocSingular")
 
 # ---- SETUP -------------------------------------------------------------
 
 library(package = "AlphaSimR")
 library(package = "dplyr")
 library(package = "pedigreeTools")
-library(package = "rsvd")
-
-library(package = "BiocSingular")
 
 # ---- SIMULATION - ONE OR TWO FOUNDER POPULATION ------------------------
 
